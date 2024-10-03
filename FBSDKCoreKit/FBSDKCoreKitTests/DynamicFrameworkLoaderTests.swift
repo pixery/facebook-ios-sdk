@@ -226,13 +226,6 @@ final class DynamicFrameworkLoaderTests: XCTestCase {
     )
   }
 
-  func testASIdentifierManagerClass() {
-    XCTAssertTrue(
-      fbsdkdfl_ASIdentifierManagerClass() is ASIdentifierManager.Type,
-      "Should dynamically load the ASIdentifierManager class"
-    )
-  }
-
   func testSFSafariViewControllerClass() {
     XCTAssertTrue(
       fbsdkdfl_SFSafariViewControllerClass() is SFSafariViewController.Type,

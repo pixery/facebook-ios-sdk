@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FBSDKDynamicFrameworkResolving <NSObject>
 
 - (nullable Class)safariViewControllerClass;
-- (nullable Class)asIdentifierManagerClass;
 
 @end
 

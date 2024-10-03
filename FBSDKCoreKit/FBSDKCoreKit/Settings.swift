@@ -390,7 +390,7 @@ public final class Settings: NSObject, SettingsProtocol, SettingsLogging, _Clien
       } else if #available(iOS 14, *) {
         return _advertisingTrackingStatus
       } else {
-        return ASIdentifierManager.shared().isAdvertisingTrackingEnabled ? .allowed : .disallowed
+        return .disallowed
       }
     }
     set {

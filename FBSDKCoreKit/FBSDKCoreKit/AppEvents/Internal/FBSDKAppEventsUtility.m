@@ -23,8 +23,6 @@
 
 @interface FBSDKAppEventsUtility ()
 
-@property (nullable, nonatomic) ASIdentifierManager *cachedAdvertiserIdentifierManager;
-
 @end
 
 @implementation FBSDKAppEventsUtility
@@ -138,40 +136,6 @@ static FBSDKAppEventsUtility *_shared;
                                   shouldUseCachedManager:shouldUseCachedManagerIfAvailable];
 }
 
-- (nullable NSString *)_advertiserIDFromDynamicFrameworkResolver:(id<FBSDKDynamicFrameworkResolving>)dynamicFrameworkResolver
-                                          shouldUseCachedManager:(BOOL)shouldUseCachedManager
-{
-  if (!self.settings.isAdvertiserIDCollectionEnabled) {
-    return nil;
-  }
-
-  if (@available(iOS 14.0, *)) {
-    if (!self.appEventsConfigurationProvider.cachedAppEventsConfiguration.advertiserIDCollectionEnabled) {
-      return nil;
-    }
-  }
-
-  ASIdentifierManager *manager = [self _asIdentifierManagerWithShouldUseCachedManager:shouldUseCachedManager
-                                                             dynamicFrameworkResolver:dynamicFrameworkResolver];
-  return manager.advertisingIdentifier.UUIDString;
-}
-
-- (ASIdentifierManager *)_asIdentifierManagerWithShouldUseCachedManager:(BOOL)shouldUseCachedManager
-                                               dynamicFrameworkResolver:(id<FBSDKDynamicFrameworkResolving>)dynamicFrameworkResolver
-{
-  if (shouldUseCachedManager && self.cachedAdvertiserIdentifierManager) {
-    return self.cachedAdvertiserIdentifierManager;
-  }
-
-  Class ASIdentifierManagerClass = [dynamicFrameworkResolver asIdentifierManagerClass];
-  ASIdentifierManager *manager = (ASIdentifierManager *)[ASIdentifierManagerClass sharedManager];
-  if (shouldUseCachedManager) {
-    self.cachedAdvertiserIdentifierManager = manager;
-  } else {
-    self.cachedAdvertiserIdentifierManager = nil;
-  }
-  return manager;
-}
 
 - (BOOL)isStandardEvent:(nullable NSString *)event
 {
@@ -516,7 +480,6 @@ static FBSDKAppEventsUtility *_shared;
   self.internalUtility = nil;
   self.errorFactory = nil;
   self.dataStore = nil;
-  self.cachedAdvertiserIdentifierManager = nil;
 }
 
 #endif
